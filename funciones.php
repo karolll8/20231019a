@@ -12,6 +12,7 @@ function consulta(){
 //se crea una nueva funcion (verbo infinitivo)
 function calcular(){
     $salida = 0;//inicializa la variable
+
     $conexion=mysqli_connect("localhost", "root", "root", "RUBLE_FORGOTAPP_PROYECT");//conexion con la base de datos
     $sql= "SELECT 2+1 ";//realiza una suma sql
     $sql.= "AS suma";//renombrar la operacion.
