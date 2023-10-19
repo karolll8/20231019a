@@ -1,3 +1,10 @@
 <?php
-//se imprime la palabra hola.
-echo "hola";
+//se una funcion
+function consulta(){
+    //inicializa la variable
+    $salida="";
+    //calculo del area de un triangulo.
+    $salida=10*2/2;
+    //retornar al valor de la variable $salida
+    return $salida;
+}
