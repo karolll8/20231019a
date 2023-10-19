@@ -82,3 +82,83 @@ function conteo_usuario()//se crea una funcion
 
     return $salida; // Retorna el valor de la variable $salida
 }
+
+
+
+function insertarPersonas($Id, $nombre, $correo, $clave, $cumple, $telefono, $n) {//crear funcion insertarPersonas
+    $salida = 0; // Inicializa la variable
+    $conexion = mysqli_connect("localhost", "root", "root", "RUBLE_FORGOTAPP_PROYECT"); // Conexión a la base de datos
+
+    if ($conexion === false) {//hacer una condicion con un if
+        die("Error de conexión: " . mysqli_connect_error());//error de conexion
+    }
+
+    // Comprobamos si el ID ya existe
+    $sql_comprobar = "SELECT * FROM Usuarios WHERE Id = ?"; // Usar un marcador de posición
+    $stmt = mysqli_prepare($conexion, $sql_comprobar);//preparar una consulta SQL parametrizada usando MySQL
+    mysqli_stmt_bind_param($stmt, "s", $Id);//vincular un valor a una consulta SQL parametrizada. La letra "s" indica que el valor es una cadena (string)
+    //"String" o "cadena" se refiere a una secuencia de caracteres, como texto.
+    mysqli_stmt_execute($stmt);//función que realiza la consulta SQL preparada con los valores proporcionados y la ejecuta en la base de datos
+    $resultado = mysqli_stmt_get_result($stmt);//obtener el resultado de lo seleccionado
+
+    if (mysqli_num_rows($resultado) > 0) {
+        // Cuando el ID ya existe
+        $salida = 0;
+    } else {
+        // Cuando el ID no existe
+        $sql = "INSERT INTO Usuarios(Id, Nombre_usuario, Correo, Contraseña, Cumpleaños, Telefono, `N°`) VALUES (?, ?, ?, ?, ?, ?, ?)"; // Consulta parametrizada
+
+        $stmt = mysqli_prepare($conexion, $sql);
+        mysqli_stmt_bind_param($stmt, "ssssssi", $Id, $nombre, $correo, $clave, $cumple, $telefono, $n);
+        if (mysqli_stmt_execute($stmt)) {
+            $salida = 1;
+        } else {
+            $salida = 0;
+        }
+    }
+
+    mysqli_stmt_close($stmt);
+
+    $conexion->close(); // Cierre de la conexión
+
+    return $salida; // Retorna el resultado
+}
+
+
+function eliminarUsuario($Id) {
+    $salida = 0; // Inicializa la variable
+    $conexion = mysqli_connect("localhost", "root", "root", "RUBLE_FORGOTAPP_PROYECT"); // Conexión a la base de datos
+
+    if ($conexion === false) {
+        die("Error de conexión: " . mysqli_connect_error());
+    }
+
+    // Comprobamos si el ID existe
+    $sql_comprobar = "SELECT * FROM Usuarios WHERE Id = ?"; // Usamos un marcador de posición
+    $stmt = mysqli_prepare($conexion, $sql_comprobar);
+    mysqli_stmt_bind_param($stmt, "s", $Id);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+
+    if (mysqli_num_rows($resultado) > 0) {
+        // Cuando el ID existe
+        $sql = "DELETE FROM Usuarios WHERE Id = ?"; // Consulta parametrizada para eliminar el usuario
+
+        $stmt = mysqli_prepare($conexion, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $Id);
+        if (mysqli_stmt_execute($stmt)) {
+            $salida = 1; // Usuario eliminado con éxito
+        } else {
+            $salida = 0; // Error al eliminar el usuario
+        }
+    }
+
+    mysqli_stmt_close($stmt);
+
+    $conexion->close(); // Cierre de la conexión
+
+    return $salida; // Retorna el resultado
+}
+
+
+
