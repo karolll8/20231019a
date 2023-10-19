@@ -1,4 +1,4 @@
-<?php
+<?php //se abre php
 
 //se incluye el archivo funciones.
 include("funciones.php");

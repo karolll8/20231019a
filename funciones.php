@@ -1,5 +1,5 @@
 
-<?php
+<?php //se abre php
 
 
 function consulta()//se crea una funcion
