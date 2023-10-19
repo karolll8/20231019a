@@ -4,6 +4,6 @@
 include("funciones.php");
 
 //se invoca la funcion consulta
-echo calcular();
+echo calculo_v2();
 //se hace un espacio
 echo "<br>";
